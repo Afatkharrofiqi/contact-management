@@ -1,3 +1,6 @@
+import { User } from "@prisma/client";
+import { Request } from "express";
+
 export class RegisterUserRequest {
     username: string;
     password: string;
@@ -13,4 +16,8 @@ export class UserResponse {
 export class LoginUserRequest {
     username: string;
     password: string;
+}
+
+export interface AuthenticatedRequest extends Request {
+    user?: User;
 }
