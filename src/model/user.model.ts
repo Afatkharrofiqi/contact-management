@@ -21,3 +21,8 @@ export class LoginUserRequest {
 export interface AuthenticatedRequest extends Request {
     user?: User;
 }
+
+export class UpdateUserRequest {
+    name?: string;
+    password?: string;
+}
