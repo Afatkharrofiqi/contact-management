@@ -26,6 +26,7 @@ describe('ContactController', () => {
 
   describe("POST /api/contacts", () => {
     beforeEach(async () => {
+      await testService.deleteAddress();
       await testService.deleteContact();
       await testService.deleteUser();
 
