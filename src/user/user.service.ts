@@ -121,8 +121,6 @@ export class UserService {
             }
         });
 
-        console.log({result});
-
         return {
             username: result.username,
             name: result.name

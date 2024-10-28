@@ -13,7 +13,16 @@ import { AuthMiddleware } from './auth.middleware';
     imports: [
         WinstonModule.forRoot({
             level: 'debug',
-            format: winston.format.json(),
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+                winston.format.prettyPrint(), // Makes objects more readable
+                winston.format.printf(({ level, message, timestamp }) => {
+                    // Check if the message is an object; if so, stringify it
+                    const formattedMessage = typeof message === 'object' ? JSON.stringify(message, null, 2) : message;
+                    return `${timestamp} [${level}]: ${formattedMessage}`;
+                })
+            ),
             transports: [
                 new winston.transports.Console()
             ]
