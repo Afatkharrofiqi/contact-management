@@ -29,20 +29,20 @@ export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, stri
     }
 
     onModuleInit() {
-        this.$on('info', (e) => {
-            this.logger.info(e);
-        });
+        // this.$on('info', (e) => {
+        //     this.logger.info(e);
+        // });
 
-        this.$on('warn', (e) => {
-            this.logger.warn(e);
-        });
+        // this.$on('warn', (e) => {
+        //     this.logger.warn(e);
+        // });
 
-        this.$on('error', (e) => {
-            this.logger.error(e);
-        });
+        // this.$on('error', (e) => {
+        //     this.logger.error(e);
+        // });
 
-        this.$on('query', (e) => {
-            this.logger.info(e);
-        });
+        // this.$on('query', (e) => {
+        //     this.logger.info(e);
+        // });
     }
 }
