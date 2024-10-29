@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
-import * as request from 'supertest'
+import * as request from 'supertest';
 import { Logger } from 'winston';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { TestService } from './test.service';
@@ -24,20 +24,20 @@ describe('UserController', () => {
     testService = app.get(TestService);
   });
 
-  describe("POST /api/users", () => {
+  describe('POST /api/users', () => {
     beforeEach(async () => {
       await testService.deleteAddress();
       await testService.deleteContact();
       await testService.deleteUser();
     });
 
-    it("should be rejected if request is invalid", async () => {
+    it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
           username: '',
           password: '',
-          name: ''
+          name: '',
         });
 
       logger.info(response.body);
@@ -46,13 +46,13 @@ describe('UserController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to register", async () => {
+    it('should be able to register', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
           username: 'test',
           password: 'test',
-          name: 'test'
+          name: 'test',
         });
 
       logger.info(response.body);
@@ -62,14 +62,14 @@ describe('UserController', () => {
       expect(response.body.data.name).toBe('test');
     });
 
-    it("should be rejected if username already exists", async () => {
+    it('should be rejected if username already exists', async () => {
       await testService.createUser();
       const response = await request(app.getHttpServer())
         .post('/api/users')
         .send({
           username: 'test',
           password: 'test',
-          name: 'test'
+          name: 'test',
         });
 
       logger.info(response.body);
@@ -79,13 +79,13 @@ describe('UserController', () => {
     });
   });
 
-  describe("POST /api/users/login", () => {
+  describe('POST /api/users/login', () => {
     beforeEach(async () => {
       await testService.deleteUser();
       await testService.createUser();
     });
 
-    it("should be rejected if request is invalid", async () => {
+    it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/users/login')
         .send({
@@ -99,7 +99,7 @@ describe('UserController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to login", async () => {
+    it('should be able to login', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/users/login')
         .send({
@@ -116,13 +116,13 @@ describe('UserController', () => {
     });
   });
 
-  describe("GET /api/users/current", () => {
+  describe('GET /api/users/current', () => {
     beforeEach(async () => {
       await testService.deleteUser();
       await testService.createUser();
     });
 
-    it("should be rejected if token is invalid", async () => {
+    it('should be rejected if token is invalid', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
         .set('Authorization', 'wrong');
@@ -133,7 +133,7 @@ describe('UserController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to get user", async () => {
+    it('should be able to get user', async () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
         .set('Authorization', 'test');
@@ -146,13 +146,13 @@ describe('UserController', () => {
     });
   });
 
-  describe("PATCH /api/users/current", () => {
+  describe('PATCH /api/users/current', () => {
     beforeEach(async () => {
       await testService.deleteUser();
       await testService.createUser();
     });
 
-    it("should be rejected if request is invalid", async () => {
+    it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .patch('/api/users/current')
         .set('Authorization', 'test')
@@ -167,7 +167,7 @@ describe('UserController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to update name", async () => {
+    it('should be able to update name', async () => {
       const response = await request(app.getHttpServer())
         .patch('/api/users/current')
         .set('Authorization', 'test')
@@ -182,7 +182,7 @@ describe('UserController', () => {
       expect(response.body.data.name).toBe('test updated');
     });
 
-    it("should be able to update password", async () => {
+    it('should be able to update password', async () => {
       let response = await request(app.getHttpServer())
         .patch('/api/users/current')
         .set('Authorization', 'test')
@@ -200,7 +200,7 @@ describe('UserController', () => {
         .post('/api/users/login')
         .send({
           username: 'test',
-          password: 'password updated'
+          password: 'password updated',
         });
 
       logger.info(response.body);
@@ -211,13 +211,13 @@ describe('UserController', () => {
     });
   });
 
-  describe("DELETE /api/users/current", () => {
+  describe('DELETE /api/users/current', () => {
     beforeEach(async () => {
       await testService.deleteUser();
       await testService.createUser();
     });
 
-    it("should be rejected if token is invalid", async () => {
+    it('should be rejected if token is invalid', async () => {
       const response = await request(app.getHttpServer())
         .delete('/api/users/current')
         .set('Authorization', 'wrong');
@@ -228,7 +228,7 @@ describe('UserController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to logout user", async () => {
+    it('should be able to logout user', async () => {
       const response = await request(app.getHttpServer())
         .delete('/api/users/current')
         .set('Authorization', 'test');

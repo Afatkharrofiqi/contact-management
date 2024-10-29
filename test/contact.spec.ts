@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
-import * as request from 'supertest'
+import * as request from 'supertest';
 import { Logger } from 'winston';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { TestService } from './test.service';
@@ -24,7 +24,7 @@ describe('ContactController', () => {
     testService = app.get(TestService);
   });
 
-  describe("POST /api/contacts", () => {
+  describe('POST /api/contacts', () => {
     beforeEach(async () => {
       await testService.deleteAddress();
       await testService.deleteContact();
@@ -33,7 +33,7 @@ describe('ContactController', () => {
       await testService.createUser();
     });
 
-    it("should be rejected if request is invalid", async () => {
+    it('should be rejected if request is invalid', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/contacts')
         .set('Authorization', 'test')
@@ -50,7 +50,7 @@ describe('ContactController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to create contact", async () => {
+    it('should be able to create contact', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/contacts')
         .set('Authorization', 'test')
@@ -72,7 +72,7 @@ describe('ContactController', () => {
     });
   });
 
-  describe("GET /api/contacts/:contactId", () => {
+  describe('GET /api/contacts/:contactId', () => {
     beforeEach(async () => {
       await testService.deleteContact();
       await testService.deleteUser();
@@ -81,11 +81,11 @@ describe('ContactController', () => {
       await testService.createContact();
     });
 
-    it("should be rejected if contact is not found", async () => {
+    it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${contact.id + 1}`)
-        .set('Authorization', 'test');        
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
@@ -93,11 +93,11 @@ describe('ContactController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to get contact", async () => {
+    it('should be able to get contact', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${contact.id}`)
-        .set('Authorization', 'test');        
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
@@ -110,7 +110,7 @@ describe('ContactController', () => {
     });
   });
 
-  describe("PUT /api/contacts/:contactId", () => {
+  describe('PUT /api/contacts/:contactId', () => {
     beforeEach(async () => {
       await testService.deleteContact();
       await testService.deleteUser();
@@ -119,7 +119,7 @@ describe('ContactController', () => {
       await testService.createContact();
     });
 
-    it("should be rejected if request is invalid", async () => {
+    it('should be rejected if request is invalid', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${contact.id}`)
@@ -137,7 +137,7 @@ describe('ContactController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be rejected if contact is not found", async () => {
+    it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${contact.id + 1}`)
@@ -155,7 +155,7 @@ describe('ContactController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to update contact", async () => {
+    it('should be able to update contact', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .put(`/api/contacts/${contact.id}`)
@@ -178,7 +178,7 @@ describe('ContactController', () => {
     });
   });
 
-  describe("DELETE /api/contacts/:contactId", () => {
+  describe('DELETE /api/contacts/:contactId', () => {
     beforeEach(async () => {
       await testService.deleteContact();
       await testService.deleteUser();
@@ -187,11 +187,11 @@ describe('ContactController', () => {
       await testService.createContact();
     });
 
-    it("should be rejected if contact is not found", async () => {
+    it('should be rejected if contact is not found', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${contact.id + 1}`)
-        .set('Authorization', 'test');        
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
@@ -199,11 +199,11 @@ describe('ContactController', () => {
       expect(response.body.errors).toBeDefined();
     });
 
-    it("should be able to remove contact", async () => {
+    it('should be able to remove contact', async () => {
       const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${contact.id}`)
-        .set('Authorization', 'test');        
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
@@ -212,7 +212,7 @@ describe('ContactController', () => {
     });
   });
 
-  describe("GET /api/contacts", () => {
+  describe('GET /api/contacts', () => {
     beforeEach(async () => {
       await testService.deleteContact();
       await testService.deleteUser();
@@ -221,10 +221,10 @@ describe('ContactController', () => {
       await testService.createContact();
     });
 
-    it("should be able to search contacts", async () => {      
+    it('should be able to search contacts', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
-        .set('Authorization', 'test');        
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
@@ -232,12 +232,12 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(1);
     });
 
-    it("should be able to search contacts by name", async () => {      
+    it('should be able to search contacts by name', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
-          name: 'es'
+          name: 'es',
         });
 
       logger.info(response.body);
@@ -246,12 +246,12 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(1);
     });
 
-    it("should be able to search contacts by name not found", async () => {      
+    it('should be able to search contacts by name not found', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
-          name: 'wrong'
+          name: 'wrong',
         });
 
       logger.info(response.body);
@@ -260,12 +260,12 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(0);
     });
 
-    it("should be able to search contacts by email", async () => {      
+    it('should be able to search contacts by email', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
-          email: 'es'
+          email: 'es',
         });
 
       logger.info(response.body);
@@ -274,12 +274,12 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(1);
     });
 
-    it("should be able to search contacts by name not found", async () => {      
+    it('should be able to search contacts by name not found', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
-          email: 'wrong'
+          email: 'wrong',
         });
 
       logger.info(response.body);
@@ -288,12 +288,12 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(0);
     });
 
-    it("should be able to search contacts by email", async () => {      
+    it('should be able to search contacts by email', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
-          phone: '99999'
+          phone: '99999',
         });
 
       logger.info(response.body);
@@ -302,12 +302,12 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(1);
     });
 
-    it("should be able to search contacts by name not found", async () => {      
+    it('should be able to search contacts by name not found', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
-          phone: '8888'
+          phone: '8888',
         });
 
       logger.info(response.body);
@@ -316,14 +316,14 @@ describe('ContactController', () => {
       expect(response.body.data.length).toBe(0);
     });
 
-    it("should be able to search contacts with page", async () => {      
+    it('should be able to search contacts with page', async () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts`)
         .set('Authorization', 'test')
         .query({
           size: 1,
           page: 2,
-        })
+        });
 
       logger.info(response.body);
 
